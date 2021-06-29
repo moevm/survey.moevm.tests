@@ -1,5 +1,8 @@
 from selenium.common.exceptions import NoSuchElementException
 from survey_page import survey_page
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support import expected_conditions as EC
 
 
 def find(func, *args):
@@ -30,7 +33,7 @@ class start_page:
     def __init__(self, driver, season):
         self.season = season
         self.driver = driver
-        self.site_path = "http://" + season + ".survey.moevm.info/"
+        self.site_path = "http://{}.survey.moevm.info/".format(season)
         self.nums_directions = [1, 2, 3, 4]
 
     def count_directions(self):
@@ -92,7 +95,8 @@ class start_page:
         if button_start is None:
             return None
         else:
-            button_start.click()
+            self.driver.execute_script("arguments[0].click();", WebDriverWait(self.driver, 20).until(
+                EC.element_to_be_clickable((By.XPATH, xpath))))
             return True
 
     def click_start_button_success(self):

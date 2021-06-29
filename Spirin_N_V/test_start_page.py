@@ -1,11 +1,24 @@
+import os
+
+from config import SEASON, DIRECTION, SEM, VALUE_ID
 from start_page import start_page
 import unittest
 from selenium.webdriver import Chrome
+from selenium.webdriver.chrome.options import Options
 
 
 class test_start_page(unittest.TestCase):
-    season = "autumn"
-    page = start_page(Chrome(), season)
+    season = SEASON
+    options = Options()
+    options.add_argument("--no-sandbox")
+    options.add_argument("--headless")
+    options.add_argument("start-maximized")
+    options.add_argument("disable-infobars")
+    options.add_argument("--disable-extensions")
+    options.add_argument("--disable-gpu")
+    options.add_argument("--disable-dev-shm-usage")
+
+    page = start_page(Chrome(executable_path=os.getenv('CHROMEDRIVER_DIR'), options=options), season)
     driver = page.driver
     driver.get(page.site_path)
 
@@ -51,12 +64,12 @@ class test_start_page(unittest.TestCase):
                                                                                               "четвертого направления!")
 
     def test_input_id(self):
-        input_value_id = "123"
+        input_value_id = VALUE_ID
         output_value_id = self.page.write_id(input_value_id)
         self.assertEqual(input_value_id, output_value_id, "Идентификатор был введен неверно!")
 
     def test_alert_choosing_sem(self):
-        self.page.choose_direction(1)
+        self.page.choose_direction(DIRECTION)
 
         self.page = self.page.click_start_button_alert()
 
@@ -70,8 +83,8 @@ class test_start_page(unittest.TestCase):
         self.assertEqual(alert_text, expected_alert_text, "Текст предупреждения не соответствует ожидаемому!")
 
     def test_alert_filling_id(self):
-        self.page.choose_direction(1)
-        self.page.choose_sem(5)
+        self.page.choose_direction(DIRECTION)
+        self.page.choose_sem(SEM)
 
         self.page = self.page.click_start_button_alert()
 
@@ -85,10 +98,10 @@ class test_start_page(unittest.TestCase):
         self.assertEqual(alert_text, expected_alert_text, "Текст предупреждения не соответствует ожидаемому!")
 
     def test_start_survey(self):
-        self.page.choose_direction(1)
-        self.page.choose_sem(5)
+        self.page.choose_direction(DIRECTION)
+        self.page.choose_sem(SEM)
 
-        input_value_id = "123"
+        input_value_id = VALUE_ID
         self.page.write_id(input_value_id)
 
         self.page = self.page.click_start_button_success()
@@ -96,5 +109,5 @@ class test_start_page(unittest.TestCase):
         self.assertNotEqual(self.page, None, "На кнопку для старта опроса не удалось нажать!")
 
         current_url = self.driver.current_url
-        expected_url = self.page.site_path + "semester/15123"
+        expected_url = "{}{}{}{}{}".format(self.page.site_path, "semester/", DIRECTION, SEM, VALUE_ID)
         self.assertEqual(current_url, expected_url, "Не удалось перейти на ожидаемую страницу опроса!")

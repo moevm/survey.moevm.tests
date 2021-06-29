@@ -1,6 +1,10 @@
+import os
+
+from config import SEASON, VALUE_ID
 from start_page import start_page
 from selenium.webdriver import Chrome
 import random
+from selenium.webdriver.chrome.options import Options
 
 import unittest
 
@@ -19,8 +23,16 @@ def is_unique_elements_in_array(arr):
 
 
 class test_survey_page(unittest.TestCase):
-    season = "autumn"
-    driver = Chrome()
+    season = SEASON
+    options = Options()
+    options.add_argument("--no-sandbox")
+    options.add_argument("--headless")
+    options.add_argument("start-maximized")
+    options.add_argument("disable-infobars")
+    options.add_argument("--disable-extensions")
+    options.add_argument("--disable-gpu")
+    options.add_argument("--disable-dev-shm-usage")
+    driver = Chrome(executable_path=os.getenv('CHROMEDRIVER_DIR'), options=options)
     page = start_page(driver, season)
     driver.get(page.site_path)
 
@@ -35,7 +47,7 @@ class test_survey_page(unittest.TestCase):
         self.assertNotEqual(choosing_sem, None, "Не удалось найти " + semester.__str__() + " семестр после выбора "
                             + direction.__str__() +
                             " направления!")
-        input_value_id = "123"
+        input_value_id = VALUE_ID
         value_id = self.page.write_id(input_value_id)
         self.assertEqual(input_value_id, value_id, "Идентификатор был введен неверно!")
         self.page = self.page.click_start_button_success()
@@ -55,6 +67,7 @@ class test_survey_page(unittest.TestCase):
         self.assertEqual(alert_text, expected_alert_text, "Текст предупреждения не соответствует ожидаемому!")
 
     def validation_survey_success(self, direction, semester):
+
         self.choose_direction_and_semester(direction, semester)
 
         teachers_and_subjects = []
