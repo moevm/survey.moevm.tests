@@ -32,32 +32,36 @@ class test_start_page(unittest.TestCase):
             self.assertNotEqual(choosing_direction, None, "Не удалось найти " + direction.__str__() + " направление!")
 
     def test_choosing_semesters_from_first_direction(self):
-        self.page.choose_direction(1)
-        nums_semesters = [1, 3, 5, 7]
+        direction = 1
+        self.page.choose_direction(direction)
+        nums_semesters = self.page.semesters_from_direction(direction)
         for num_sem in nums_semesters:
             choosing_sem = self.page.choose_sem(num_sem)
             self.assertNotEqual(choosing_sem, None, "Не удалось найти " + num_sem.__str__() + " семестр после выбора "
                                                                                               "первого направления!")
 
     def test_choosing_semesters_from_second_direction(self):
-        self.page.choose_direction(2)
-        nums_semesters = [1, 3, 5, 7]
+        direction = 2
+        self.page.choose_direction(direction)
+        nums_semesters = self.page.semesters_from_direction(direction)
         for num_sem in nums_semesters:
             choosing_sem = self.page.choose_sem(num_sem)
             self.assertNotEqual(choosing_sem, None, "Не удалось найти " + num_sem.__str__() + " семестр после выбора "
                                                                                               "второго направления!")
 
     def test_choosing_semesters_from_third_direction(self):
-        self.page.choose_direction(3)
-        nums_semesters = [1, 3]
+        direction = 3
+        self.page.choose_direction(direction)
+        nums_semesters = self.page.semesters_from_direction(direction)
         for num_sem in nums_semesters:
             choosing_sem = self.page.choose_sem(num_sem)
             self.assertNotEqual(choosing_sem, None, "Не удалось найти " + num_sem.__str__() + " семестр после выбора "
                                                                                               "третьего направления!")
 
     def test_choosing_semesters_from_fourth_direction(self):
-        self.page.choose_direction(4)
-        nums_semesters = [1, 3]
+        direction = 4
+        self.page.choose_direction(direction)
+        nums_semesters = self.page.semesters_from_direction(direction)
         for num_sem in nums_semesters:
             choosing_sem = self.page.choose_sem(num_sem)
             self.assertNotEqual(choosing_sem, None, "Не удалось найти " + num_sem.__str__() + " семестр после выбора "
