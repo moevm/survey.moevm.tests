@@ -1,4 +1,4 @@
-# Как запустить тесты
+# Как запустить тесты:
 ### 1) Установить Docker на ubuntu:18.04: 
 `sudo apt-get update`  
 `sudo apt-get —no-install-recommends install -y \`  
