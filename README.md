@@ -1,4 +1,4 @@
-# Как запустить тесты
+# Как запустить тесты:
 ### 1) Установить Docker на ubuntu:18.04: 
 `sudo apt-get update`  
 `sudo apt-get —no-install-recommends install -y \`  
@@ -19,6 +19,6 @@
 `sudo usermod -aG docker $USER`  
 `newgrp docker`  
 ### 3) Создать образ с помощью Dockerfile с названием "tests" из текущей директории (там, где лежит Dockerfile):  
-`sudo docker build -t tests .`
+`docker build -t tests .`
 ### 4) Создать контейнер из образа "tests" и запустить его:  
-`sudo docker run -p 443:443 tests`
+`docker run -p 443:443 tests`
