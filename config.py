@@ -1,0 +1,4 @@
+SEASON = 'autumn'
+DIRECTION = 1
+SEM = 5
+VALUE_ID = "123"
